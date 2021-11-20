@@ -1,6 +1,6 @@
 BUILD := build
-SIMPLELINK_CC13X2_26X2_SDK_INSTALL_DIR ?= ../../simplelink_cc13x2_26x2_sdk_5_10_00_48
-
+SIMPLELINK_CC13X2_26X2_SDK_INSTALL_DIR ?= C:\ti\simplelink_cc13xx_cc26xx_sdk_5_30_00_56
+GCC_ARMCOMPILER ?= C:\Program Files (x86)\GNU Tools Arm Embedded\9 2019-q4-major
 
 include $(SIMPLELINK_CC13X2_26X2_SDK_INSTALL_DIR)/imports.mak
 
@@ -199,7 +199,7 @@ $(BUILD)/$(NAME).out: $(BUILD)/$(OBJECTS)
 	@ $(LNK)  $(BUILD)/$(OBJECTS)  $(LFLAGS) -o $(BUILD)/$(NAME).out
 
 $(BUILD): syscfg
-	mkdir -p $(BUILD)
+	if not exist $(BUILD) mkdir $(BUILD)
 	@ echo Creating output folder
 
 test:

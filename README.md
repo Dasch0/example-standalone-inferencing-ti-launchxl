@@ -2,37 +2,43 @@
 
 This repository runs an exported impulse on the Texas Instruments LAUNCHXL-CC1352P1 development board. See the documentation at [Running your impulse locally (TI CC1352P LaunchPad)](https://docs.edgeimpulse.com/docs/running-your-impulse-ti-launchxl).
 
-## Texas Instruments Simplelink SDK
-
-- Uses the TI Simplelink SDK `simplelink_cc13x2_26x2_sdk_5.20.00.52`
-- Set `SIMPLELINK_CC13X2_26X2_SDK_INSTALL_DIR` in `gcc\makefile` to the path to TI SimpleLink SDK.
-
 ## Building the application
 
-1. Build the application by calling `make` as follows:
+**Windows**
+
+1. If you are building locally, You will first need to install the following dependencies.
+
+- [TI Simplelink SDK](https://www.ti.com/tool/download/SIMPLELINK-CC13X2-26X2-SDK#previous-versions) version simplelink_cc13x2_26x2_sdk_5.20.00.52
+- [ARM GCC toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads) version 9-2019-q4-major
+- [UniFlash](https://www.ti.com/tool/UNIFLASH#downloads) is installed and the `C:\ti\uniflash_x.x.x` directory is added to your `PATH` environment variable
+
+2. The default makefile is configured for the Docker environment. You will need to open `./gcc/makefile` in the standalone example repository, and define custom paths to your installed dependencies.
+
+Specifically, remove the `SIMPLELINK_CC13X2_26X2_SDK_INSTALL_DIR` on line 2 of the makefile, and add the following definitions at the top of the makefile
+
+```
+SIMPLELINK_CC13X2_26X2_SDK_INSTALL_DIR ?= C:\ti\simplelink_cc13xx_cc26xx_sdk_5_30_00_56
+GCC_ARMCOMPILER ?= C:\Program Files (x86)\GNU Tools Arm Embedded\9 2019-q4-major
+```
+
+These are the Windows 10 default install paths, the install paths may vary based on your system or installation
+
+
+3. Build the application by calling `make` as follows:
 
     ```
     $ cd gcc
     $ make
     ```
-1. Connect the board to your computer using USB.
-1. Flash the board
 
-    **Windows**
+4. Connect the board to your computer using USB.
+5. Flash the board
 
     ```
     $ dslite.bat -c tools\user_files\configs\cc1352p1f3.ccxml -l tools\user_files\settings\generated.ufsettings -e -f -v gcc\build\edge-impulse-standalone.out
     ```
 
-    **Linux, macOS**
-
-    ```
-    $ dslite.sh -c tools/user_files/configs/cc1352p1f3.ccxml -l tools/user_files/settings/generated.ufsettings -e -f -v gcc/build/edge-impulse-standalone.out
-    ```
-
-    *Note*: the above expects [UniFlash](https://www.ti.com/tool/UNIFLASH#downloads) is installed and `PATH` is set up properly to find `dslite.sh`.
-
-### Or build with Docker
+## Or build with Docker
 
 1. Build the Docker image:
     ```
